@@ -3,24 +3,31 @@ name: Continuous Integration
 on:
   push:
     branches: 
-      - main
-      - continuous-integration
-      
+      - master
+      - release/*
+      - ci
   pull_request:
-    branches: [ master ]
-
+    branches: 
+      - master
+      - release/*
+    
 jobs:
-  buildAndTest:
-    name: Build and Test
+  frontend:
+  
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v1
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    
+    - name: Create network
+      run:  docker network create api-backend
+    
+    - name: Build environment
+      run: docker-compose up -d --build
+    
+#     - name: Run environment
+#       run: docker-compose up
 
-      - name: Install dependencies
-        run: yarn
-
-      - name: Build
-        run: yarn build
-
-      - name: Test
-        run: yarn test --watchAll=false
+    - name: Test
+      run: yarn test --watchAll=false
