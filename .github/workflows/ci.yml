@@ -25,9 +25,3 @@ jobs:
     
     - name: Build environment
       run: docker-compose up -d --build
-    
-#     - name: Run environment
-#       run: docker-compose up
-
-    - name: Test
-      run: yarn test --watchAll=false
