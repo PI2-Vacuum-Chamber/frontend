@@ -39,7 +39,7 @@ function Card({ controls, options, title }) {
           open={isVisible}
           onClose={handleClose}
         >
-          {options.map((item, index)=> <MenuItem key={index} onClick={()=> handleClose(item.value)}>{item.label}</MenuItem>)}
+          {options.map((item, index)=> <MenuItem style={{fontSize: 15}} key={index} onClick={()=> handleClose(item.value)}>{item.label}</MenuItem>)}
         </Menu>
       </Header>
 

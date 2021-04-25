@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Home, Experiment, History} from '../pages'
+import { Home, Experiment, History, SensorPage} from '../pages'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 const Routes = () => {
@@ -10,6 +10,7 @@ const Routes = () => {
           <Route path="/" exact component={Home} />
           <Route path="/experiment" exact component={Experiment} />
           <Route path="/history" exact component={History} />
+          <Route path="/sensors" exact component={SensorPage} />
         </Switch>
       </Router>
   );

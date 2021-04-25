@@ -8,6 +8,8 @@ import CHRONOMETER from './chronometer.png';
 import FLASHLIGHT from './flashlight.png';
 import TEST from './test.png';
 import PROGRESS from './progress.png';
+import SENSOR_ICON from './sensor_icon.svg';
+import SENSOR_RED from './sensor_icon_red.svg';
 
 export default {
   LOGO,
@@ -20,4 +22,6 @@ export default {
   FLASHLIGHT,
   TEST,
   PROGRESS,
+  SENSOR_ICON,
+  SENSOR_RED
 };

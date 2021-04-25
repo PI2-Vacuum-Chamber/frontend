@@ -5,27 +5,10 @@ import { useHistory } from "react-router-dom";
 
 import { Container, Body, Title, BodyCard, TitleCard, TextCard, Icon, InfoText } from './styles';
 
-const buttons = [
-  {
-    id: 1,
-    text: 'Despressurizar câmara',
-    icon: Img.MONOMETRO
-  },
-  {
-    id: 2,
-    text: 'Sensores',
-    icon: Img.SENSOR
-  },
-  {
-    id: 3,
-    text: 'Histórico de experimentos',
-    icon: Img.HISTORIC
-  },
-];
-
 const Home = () => {
   const [selectedId, setSelectedId] = useState(-1);
   const [isPressure, setIsPressure] = useState(true);
+
   const history = useHistory();
 
   return (
@@ -62,7 +45,7 @@ const Home = () => {
           <SideBarButton 
             icon={Img.SENSOR} 
             selected={4 === selectedId}
-            onClick={() => setSelectedId(4)}
+            onClick={() => history.push("/sensors")} 
           >
             Sensores
           </SideBarButton>
@@ -104,6 +87,7 @@ const Home = () => {
             <InfoText>Pronto para simulação</InfoText>
           </SideBarRight>
         )}
+
     </Container>
   );
 }

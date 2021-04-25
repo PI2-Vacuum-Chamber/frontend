@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
-import { SideBar, SideBarButton, MeasurerCards, SideBarRight, Button, InputForm, RedButton } from '../../components';
+import React, { useState, useCallback } from 'react';
+import { 
+  SideBar, 
+  SideBarButton, 
+  MeasurerCards, 
+  SideBarRight, 
+  Button, 
+  InputForm, 
+  RedButton,
+  DialogRotation
+} from '../../components';
 import { Img } from '../../assets';
 import Switch from './SwitchButton';
 import Progress from './Progress';
@@ -25,6 +34,7 @@ const Experiment = () => {
   const [isTestProgress, setIsTestProgress] = useState(false);
   const [checked, setChecked] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openRotate, setOpenRotate] = useState(false);
   const [maxTemp, setMaxTemp] = useState('');
   const [mimTemp, setMinTemp] = useState('');
   const [durMax, setDurMax] = useState('');
@@ -33,6 +43,12 @@ const Experiment = () => {
   const [cicleCold, setCicleCold] = useState('');
   const history = useHistory();
 
+  const handleTestModal = useCallback(() => {
+    setOpen(false);
+    setIsTestProgress(false);
+    setIsProceed(false);
+  }, []);
+  
   return (
     <Container>
       <SideBar>
@@ -40,7 +56,7 @@ const Experiment = () => {
           <SideBarButton 
             icon={Img.MONOMETRO} 
             selected={1 === selectedId}
-            onClick={() => setSelectedId(1)}
+            onClick={() => setOpenRotate(true)}
           >
             Definir rotação
           </SideBarButton>
@@ -209,7 +225,9 @@ const Experiment = () => {
           </SideBarRight>
         )}
 
-      <DialogAlert open={open} setOpen={setOpen}/>
+      <DialogAlert open={open} setOpen={setOpen} handleTestModal={handleTestModal}/>
+      <DialogRotation open={openRotate} setOpen={setOpenRotate} />
+
     </Container>
   );
 }

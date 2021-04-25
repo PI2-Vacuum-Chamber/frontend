@@ -49,7 +49,7 @@ export default function FormDialog({open, setOpen}) {
           </ContainerField>
         </Row>
 
-        <Button style={{width: 40}}>Rotacionar</Button>
+        <Button style={{width: 40}} onClick={() => setOpen(false)}>Rotacionar</Button>
       </Container>  
     </Dialog>
   );

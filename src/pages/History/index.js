@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Img } from '../../assets';
 import Switch from '../Experiment/SwitchButton';
 import { DialogRotation } from '../../components';
+import ReactExport from 'react-export-excel';
 
 import { 
   Container, 
@@ -14,6 +15,8 @@ import {
   ExperimentTitle,
 } from './styles';
 
+const { ExcelFile } = ReactExport;
+const { ExcelSheet, ExcelColumn } = ReactExport.ExcelFile;
 
 const History = () => {
   const [selectedId, setSelectedId] = useState(-1);
@@ -24,47 +27,22 @@ const History = () => {
   return (
     <Container>
       <SideBar>
-      <>
-          <SideBarButton 
-            icon={Img.MONOMETRO} 
-            selected={1 === selectedId}
-            onClick={() => setOpen(true)}
-          >
-            Definir rotação
-          </SideBarButton>
-
-          <SideBarButton 
-            icon={Img.FLASHLIGHT} 
-            selected={2 === selectedId}
-            onClick={() => setSelectedId(2)}
-            button={
-              <Switch
-                checked={checked}
-                onChange={() => setChecked(!checked)}
-              />
-            }
-          >
-            Ligar a lâmpada solar
-          </SideBarButton>
-
-          <SideBarButton 
-            icon={Img.SENSOR} 
-            selected={3 === selectedId}
-            onClick={() => setSelectedId(3)}
-          >
-            Sensores
-          </SideBarButton>
-          
-          {/* TODO: include list of experiments to choose */}
-          <SideBarButton 
-            icon={Img.HISTORIC} 
-            selected={4 === selectedId}
-            onClick={() => history.push("/history")} 
-          >
-            Histórico de experimentos
-          </SideBarButton>
-            
-        </>
+        <SideBarButton 
+          icon={Img.SENSOR} 
+          selected={3 === selectedId}
+          onClick={() => setSelectedId(3)}
+        >
+          Sensores
+        </SideBarButton>
+        
+        {/* TODO: include list of experiments to choose */}
+        <SideBarButton 
+          icon={Img.HISTORIC} 
+          selected={4 === selectedId}
+          onClick={() => history.push("/history")} 
+        >
+          Histórico de experimentos
+        </SideBarButton>
       </SideBar>
       <Body>
         <Title>Histórico de Experimentos</Title>
@@ -85,7 +63,26 @@ const History = () => {
         </BodyCard>
         
         {/* TODO: Export data */}
-        <Button style={{width: 20, alignSelf: 'end', marginTop: 10, backgroundColor: '#4c7291'}} onClick={() => history.goBack()}>Exportar</Button>
+        <ExcelFile
+          filename="teste"
+          element={
+            <Button 
+              style={{width: 20, alignSelf: 'end', marginTop: 10, backgroundColor: '#4c7291'}}
+            >
+              Exportar
+            </Button>
+          }
+        >
+          <ExcelSheet data={[{
+            pressao: 'pressao',
+            temperatura: 'temperatura',
+            datetime: '2021-04-01T10:10:100'
+          }]} name="teste">
+            <ExcelColumn label="Pressao" value="pressao" />
+            <ExcelColumn label="Temperatura" value="temperatura" />
+            <ExcelColumn label="Datetime" value="datetime" />
+          </ExcelSheet>
+        </ExcelFile>
       </Body>
 
       <DialogRotation open={open} setOpen={setOpen} />
