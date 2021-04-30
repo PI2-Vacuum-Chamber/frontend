@@ -7,6 +7,9 @@ export const Container = styled(Paper)`
     border-radius: 5px;
     max-width: 15vw;
   }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const Header = styled.div`

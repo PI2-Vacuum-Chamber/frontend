@@ -1,14 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Container, Header, Title, VerticalContainer, Circle, IndicatorNumber } from './styles';
 
-
-function Card({ controls, options, title }) { 
+function Card({ controls, option, options, title, valueMetric, setUM }) { 
   const [isVisible, setIsVisible] = useState(false);
-  const [option, setOption] = useState(options[0].value);
   const [anchorEl, setAnchorEl] = useState(null);
-
   const handleClick = useCallback((event) => {
     setIsVisible(true);
     setAnchorEl(event.currentTarget);
@@ -16,7 +13,7 @@ function Card({ controls, options, title }) {
 
   const handleClose = useCallback((value) => {
     if(typeof value === 'string'){
-      setOption(value);
+      setUM(value);
     }
     setIsVisible(false);
   }, []);
@@ -43,7 +40,7 @@ function Card({ controls, options, title }) {
         </Menu>
       </Header>
 
-      <IndicatorNumber>21.0</IndicatorNumber>
+      <IndicatorNumber>{valueMetric}</IndicatorNumber>
     </Container>
   );
 }
