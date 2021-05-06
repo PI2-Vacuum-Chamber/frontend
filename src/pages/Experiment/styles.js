@@ -32,7 +32,7 @@ export const Title = styled.span`
 export const BodyCard = styled(Paper)`
   && {
     display: flex;
-    padding: 40px;
+    padding: 20px;
     border-radius: 5px;
     width: 100%;
     flex-direction: column;
@@ -44,6 +44,9 @@ export const BodyCard = styled(Paper)`
 export const ContextCard = styled.div`
   display: flex;
   flex-direction: column;
+  max-height: 35vh;
+  overflow-y: scroll;
+  margin-bottom: 10px;
 `;
 
 export const ContainerForm = styled.div`

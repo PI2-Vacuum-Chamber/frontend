@@ -114,12 +114,30 @@ const Experiment = () => {
               <TitleCard>Orientações</TitleCard>
 
               <TextCard>
-                1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                1. É possível, conforme sua necessidade, realizar teste de vácuo quente, vácuo frio, ciclagem térmica e simulação espacial.
               </TextCard>
 
               <TextCard>
-                2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              2. Os tipos de teste são determinados mediante inserção dos parâmetros no formulário ao clicar no botão abaixo.
               </TextCard>
+
+              <TextCard>
+              3. A seguir, alguns parâmetros que definem o tipo do teste: 
+              <br></br>Para o teste de Vácuo QUENTE, basta inserir "1" no campo de "ciclos quentes e "0" no de "ciclos frios".
+              </TextCard>
+
+              <TextCard>
+              4. Para o teste de Vácuo FRIO, basta inserir "0" no campo de "ciclos quentes e "1" no de "ciclos frios".
+              </TextCard>
+
+              <TextCard>
+              5. Para o teste de CICLAGEM TÉRMICA, basta inserir dados em todos os transientes (frios e quentes). O limite de ciclos quentes e frios é "4", para cada um.
+              </TextCard>
+
+              <TextCard>
+              5. Para o teste de SIMULAÇÃO ESPACIAL, basta inserir dados em todos os campos, e em específico, que nos campos de "ciclos quentes" e "ciclos frios" seja inserido "1".
+              </TextCard>
+
             </ContextCard>
 
             <Button 

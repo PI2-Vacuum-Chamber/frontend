@@ -67,12 +67,21 @@ const Home = () => {
           <TitleCard>Orientações</TitleCard>
 
           <TextCard>
-            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            1. É possível, conforme sua necessidade, realizar teste de vácuo quente, vácuo frio, ciclagem térmica e simulação espacial.
           </TextCard>
 
           <TextCard>
-            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            2. Os tipos de teste são determinados mediante inserção dos parâmetros no formulário disposto ao clicar em "Despressurizar câmara" e "Teste de ciclagem térmica".
           </TextCard>
+
+          <TextCard>
+            3. Ícones e valores localizados na direita, sinalizarão durante todo o processo o andamento do estado da câmara e seus experimentos.
+          </TextCard>
+
+          <TextCard>
+            4. Também é possível visualizar as temperaturas e a pressão média envolvidas nos cartões acima.
+          </TextCard>
+
         </BodyCard>
       </Body>
 
