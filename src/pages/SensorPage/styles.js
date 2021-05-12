@@ -45,7 +45,7 @@ export const DescriptionText = styled.span`
   font-size: 16px;
   text-align: center;
   font-family: 'Montserrat-SemiBold';
-  color: #F82F2F;
+  color: ${({isGood})=> isGood ? 'green' : '#F82F2F'};
 `;
 
 export const SensorIcon = styled.img`

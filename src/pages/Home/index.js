@@ -86,12 +86,12 @@ const Home = () => {
       </Body>
 
         {isPressure ? (
-          <SideBarRight>
+          <SideBarRight ln2={100} gn2={100}>
             <Icon src={Img.CLOSE} />
             <InfoText>Não pronto para simulação</InfoText>
           </SideBarRight>
         ):(
-          <SideBarRight>
+          <SideBarRight ln2={100} gn2={100}>
             <Icon src={Img.CHECK} />
             <InfoText>Pronto para simulação</InfoText>
           </SideBarRight>

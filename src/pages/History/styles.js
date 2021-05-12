@@ -37,6 +37,7 @@ export const BodyCard = styled(Paper)`
     width: 100%;
     flex-direction: column;
     justify-content: space-between;
+    margin: 30px 0px 20px;
   }
 `;
 

@@ -16,6 +16,7 @@ export const Header = styled.div`
   display: flex;
   flex-direction: row;
   margin: 0px 5px 10px;
+  justify-content: space-between;
 `;
 
 export const Title = styled.span`

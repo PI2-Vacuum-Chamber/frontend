@@ -10,6 +10,8 @@ import TEST from './test.png';
 import PROGRESS from './progress.png';
 import SENSOR_ICON from './sensor_icon.svg';
 import SENSOR_RED from './sensor_icon_red.svg';
+import WARNING from './warning.png';
+import ALERT from './alert.png';
 
 export default {
   LOGO,
@@ -23,5 +25,7 @@ export default {
   TEST,
   PROGRESS,
   SENSOR_ICON,
-  SENSOR_RED
+  SENSOR_RED,
+  WARNING,
+  ALERT
 };

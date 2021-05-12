@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '../../components';
 import { Container, Title, Row, ContainerField } from './styles';
+import api from '../../services/api';
 
 export default function FormDialog({open, setOpen}) {
+  const handleRotate = useCallback(async() => {
+    try{
+      await api.post(`/control/rotate/`);
+      setOpen(false);
+    }catch(err){
+      console.log(err)
+    }
+  }, [setOpen])
+
   return (
     <Dialog 
       open={open} 
@@ -49,7 +59,7 @@ export default function FormDialog({open, setOpen}) {
           </ContainerField>
         </Row>
 
-        <Button style={{width: 40}} onClick={() => setOpen(false)}>Rotacionar</Button>
+        <Button style={{width: 40}} onClick={handleRotate}>Rotacionar</Button>
       </Container>  
     </Dialog>
   );

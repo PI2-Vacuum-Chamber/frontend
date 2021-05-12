@@ -55,13 +55,13 @@ function MeasurerCards() {
 
   const convertPressure = useCallback((value) => {
     if(pressureUM === 'atm'){
-      return value * 1;
+      return (value * 1).toFixed(2);
     }
     if(pressureUM === 'mbar'){
-      return value * 2;
+      return (value * 1.01325).toFixed(2);
     }
     if(pressureUM === 'Pa'){
-      return value * 3;
+      return (value * 101325).toFixed(2);
     }
 
   }, [pressureUM])
@@ -71,10 +71,10 @@ function MeasurerCards() {
       return (value * 1).toFixed(2);
     }
     if(tempCamaraUM === 'F'){
-      return (value * 2).toFixed(2);
+      return (value * 32).toFixed(2);
     }
     if(tempCamaraUM === 'K'){
-      return (value * 3).toFixed(2);
+      return (value * 273.15).toFixed(2);
     }
   }, [tempCamaraUM])
 
@@ -83,10 +83,10 @@ function MeasurerCards() {
       return (value * 1).toFixed(2);
     }
     if(tempLinhaUM === 'F'){
-      return (value * 2).toFixed(2);
+      return (value * 32).toFixed(2);
     }
     if(tempLinhaUM === 'K'){
-      return (value * 3).toFixed(2);
+      return (value * 273.15).toFixed(2);
     }
   }, [tempLinhaUM])
 

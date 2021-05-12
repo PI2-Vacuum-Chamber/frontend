@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { SideBar, SideBarButton, Button } from '../../components';
 import { useHistory } from "react-router-dom";
 import { Img } from '../../assets';
 import Switch from '../Experiment/SwitchButton';
-import { DialogRotation } from '../../components';
+import { DialogRotation, LineChart } from '../../components';
 import ReactExport from 'react-export-excel';
 
 import { 
@@ -14,6 +14,7 @@ import {
   TextCard, 
   ExperimentTitle,
 } from './styles';
+import api from '../../services/api';
 
 const { ExcelFile } = ReactExport;
 const { ExcelSheet, ExcelColumn } = ReactExport.ExcelFile;
@@ -22,7 +23,21 @@ const History = () => {
   const [selectedId, setSelectedId] = useState(-1);
   const [checked, setChecked] = useState(false);
   const [open, setOpen] = useState(false);
+  const [experiments, setExperiments] = useState([]);
   const history = useHistory();
+
+  const getExperiements = useCallback(async () => {
+    try {
+      const response = await api.get('/control/index');
+      setExperiments(response.data.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }, []);
+
+  useEffect(() => {
+    getExperiements();
+  }, [])
 
   return (
     <Container>
@@ -35,7 +50,6 @@ const History = () => {
           Sensores
         </SideBarButton>
         
-        {/* TODO: include list of experiments to choose */}
         <SideBarButton 
           icon={Img.HISTORIC} 
           selected={4 === selectedId}
@@ -43,23 +57,35 @@ const History = () => {
         >
           Histórico de experimentos
         </SideBarButton>
+
+        {experiments.map((item, index) => (
+          <SideBarButton 
+            key={String(item.host)}
+            onClick={() => history.push("/history")} 
+          >
+            Experimento {index +1 }
+          </SideBarButton>
+        ))}
       </SideBar>
       <Body>
         <Title>Histórico de Experimentos</Title>
-        <ExperimentTitle>experimento-25-02-2021</ExperimentTitle>
-
+        <ExperimentTitle>experimento-12-05-2021</ExperimentTitle>
         {/* TODO: Redirect to previous page */}
         <Button style={{width: 20, marginBottom: 10, backgroundColor: '#C4C4C4', color: 'black'}} onClick={() => history.goBack()}>Voltar</Button>
         
-        <BodyCard>
-            <TextCard>Duração transiente com temperatura baixa: 00:10:00</TextCard>
-            <TextCard>Duração com temperatura máxima fria: 00:05:00</TextCard>
+        <LineChart title='Temperatura ºC'  valueMax={40} time={7}/>
+        
+        <LineChart title='Pressão' valueMax={20} time={7}/>
 
-            <TextCard>Duração transiente com temperatura baixa: 00:10:00</TextCard>
-            <TextCard>Duração com temperatura máxima quente: 00:05:00</TextCard>
-            
-            <TextCard>Duração da câmara despressurizada: 00:10:00</TextCard>
-            <TextCard>Duração total: 00:05:00</TextCard>
+        <BodyCard>
+          <TextCard>Duração transiente com temperatura baixa: 00:10:00</TextCard>
+          <TextCard>Duração com temperatura máxima fria: 00:05:00</TextCard>
+
+          <TextCard>Duração transiente com temperatura baixa: 00:10:00</TextCard>
+          <TextCard>Duração com temperatura máxima quente: 00:05:00</TextCard>
+          
+          <TextCard>Duração da câmara despressurizada: 00:10:00</TextCard>
+          <TextCard>Duração total: 00:05:00</TextCard>
         </BodyCard>
         
         {/* TODO: Export data */}

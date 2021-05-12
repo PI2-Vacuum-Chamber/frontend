@@ -8,3 +8,4 @@ export { default as MeasurerCards } from './MeasurerCards';
 export { default as RedButton } from './RedButton';
 export { default as DialogRotation } from './DialogRotation';
 export { default as DialogAlert } from './DialogAlert';
+export { default as LineChart } from './LineChart';

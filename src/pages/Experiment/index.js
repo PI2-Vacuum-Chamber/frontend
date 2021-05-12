@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { 
   SideBar, 
   SideBarButton, 
@@ -12,6 +12,7 @@ import {
 import { Img } from '../../assets';
 import Switch from './SwitchButton';
 import Progress from './Progress';
+import StopWatch from './StopWatch';
 import { useHistory } from "react-router-dom";
 import { DialogAlert } from '../../components'
 import { 
@@ -27,6 +28,7 @@ import {
   ContainerForm,
 } from './styles';
 
+import api from '../../services/api';
 
 const Experiment = () => {
   const [selectedId, setSelectedId] = useState(-1);
@@ -34,6 +36,7 @@ const Experiment = () => {
   const [isTestProgress, setIsTestProgress] = useState(false);
   const [checked, setChecked] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openNewTest, setOpenNewTest] = useState(false);
   const [openRotate, setOpenRotate] = useState(false);
   const [maxTemp, setMaxTemp] = useState('');
   const [mimTemp, setMinTemp] = useState('');
@@ -41,13 +44,72 @@ const Experiment = () => {
   const [durMin, setDurMin] = useState('');
   const [cicleHot, setCicleHot] = useState('');
   const [cicleCold, setCicleCold] = useState('');
+  const [ln2, setLn2] = useState(100);
+  const [gn2, setGn2] = useState(100);
+  const [testId, setTestId] = useState(null);
   const history = useHistory();
+  const timer = useRef(null);
+  const increment = useRef(null);
 
   const handleTestModal = useCallback(() => {
     setOpen(false);
+    setOpenNewTest(true);
+  }, []);
+
+  const handleNewTest = useCallback(() => {
+    setOpenNewTest(false);
     setIsTestProgress(false);
     setIsProceed(false);
   }, []);
+
+  const handleTeste = useCallback(async() => {
+    try{
+      if(ln2 - (cicleCold * 25) < 0 || gn2 - (cicleHot * 25) < 0){
+        alert('Nível do tanque é inválido para a quantidade de ciclos');
+        return;
+      }
+      const response = await api.post('/control/start', {
+        tempMax: Number(maxTemp),
+        timeTempMax: Number(durMax),
+        tempMin: Number(mimTemp),
+        timeTempMin: Number(durMin),
+        qtdeCiclesMax: Number(cicleHot),
+        qtdeCiclesMin: Number(cicleCold),
+      });
+      setTestId(response.data.data)
+      setIsTestProgress(true);
+      setIsProceed(false);
+
+      if(ln2 > 0) {
+        const newLn2 = ln2 - (cicleCold * 25);
+        setLn2(newLn2.toFixed(0));
+      }
+      
+      if(gn2 > 0) {
+        const newGn2 = gn2 - (cicleHot * 25);
+        setGn2(newGn2.toFixed(0));
+      }
+
+      timer.current = setTimeout(() => {
+        setOpen(true);
+        clearInterval(increment.current);
+      }, Number(durMax * 1000) + Number(durMin * 1000));
+
+    }catch(err){
+      console.log(err)
+    }
+  }, [durMax, durMin, cicleCold, cicleHot, maxTemp, mimTemp, ln2, gn2])
+
+  const handleCancel = useCallback(async() => {
+    try{
+      await api.post(`/control/finish/${testId}`);
+      setIsTestProgress(false);
+      setIsProceed(false);
+      clearTimeout(timer.current)
+    }catch(err){
+      console.log(err)
+    }
+  }, [testId])
   
   return (
     <Container>
@@ -65,12 +127,6 @@ const Experiment = () => {
             icon={Img.FLASHLIGHT} 
             selected={2 === selectedId}
             onClick={() => setSelectedId(2)}
-            button={
-              <Switch
-                checked={checked}
-                onChange={() => setChecked(!checked)}
-              />
-            }
           >
             Ligar a lâmpada solar
           </SideBarButton>
@@ -94,10 +150,7 @@ const Experiment = () => {
           {isTestProgress && (
             <RedButton
               selected={5 === selectedId}
-              onClick={() => {
-                setIsProceed(false);
-                setIsTestProgress(false);
-              }} 
+              onClick={handleCancel} 
             >
               Cancelar experimento 
             </RedButton>
@@ -204,12 +257,7 @@ const Experiment = () => {
 
             <Button 
               style={{alignSelf: 'center', marginTop: 20}} 
-              onClick={() => {
-                setIsTestProgress(true);
-                setIsProceed(false);
-                setOpen(true)
-                // setTimeout(()=> setOpen(true), 5000);
-              }}>
+              onClick={handleTeste}>
                 Iniciar Teste
             </Button>
           </ContainerForm>
@@ -230,20 +278,27 @@ const Experiment = () => {
       </Body>
         
         {isTestProgress ? (
-          <SideBarRight>
+          <SideBarRight ln2={ln2} gn2={gn2}>
             <Icon src={Img.PROGRESS} />
             <InfoText>Em andamento</InfoText>
             <Icon src={Img.CHRONOMETER} />
-            <InfoText>00:00:00</InfoText>
+            <StopWatch increment={increment}/>
+
+            <Icon src={Img.ALERT} />
+            <InfoText>Economia de energia</InfoText>
           </SideBarRight>
         ):(
-          <SideBarRight>
+          <SideBarRight ln2={ln2} gn2={gn2}>
             <Icon src={Img.CHECK} />
             <InfoText>Pronto para simulação</InfoText>
+
+            <Icon src={Img.ALERT} />
+            <InfoText>Economia de energia</InfoText>
           </SideBarRight>
         )}
 
-      <DialogAlert open={open} setOpen={setOpen} handleTestModal={handleTestModal}/>
+      <DialogAlert open={open} setOpen={setOpen} handleTestModal={handleTestModal} textModal='Teste finalizado com sucesso !'/>
+      <DialogAlert open={openNewTest} setOpen={setOpenNewTest} handleTestModal={handleNewTest} textModal='Deseja realizar outro teste ?'/>
       <DialogRotation open={openRotate} setOpen={setOpenRotate} />
 
     </Container>
